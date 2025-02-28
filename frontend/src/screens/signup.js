@@ -25,7 +25,7 @@ export default function SignupScreen({ navigation }) {
     setLoading(true);
 
     try {
-      const response = await fetch("http://192.168.100.215:5000/users", {  
+      const response = await fetch("https://fitter-me-backend-1.onrender.com/users", {  
         method: "POST",
         headers: {
           "Content-Type": "application/json",
