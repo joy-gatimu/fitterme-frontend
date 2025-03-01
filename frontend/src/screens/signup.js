@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Alert,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 
 export default function SignupScreen({ navigation }) {
@@ -33,16 +34,19 @@ export default function SignupScreen({ navigation }) {
         body: JSON.stringify({
           username,
           email,
-          password,  // Backend will hash the password
+          password,
         }),
       });
 
-      const data = await response.json();
+      const text = await response.text();
+      console.log("Signup Raw Response:", text);
+
+      const data = JSON.parse(text);
       setLoading(false);
 
       if (response.ok) {
         Alert.alert("Success", data.message);
-        navigation.navigate("UserDetails"); // Navigate after successful signup
+        navigation.navigate("UserDetails", { user_id: data.id });
       } else {
         Alert.alert("Error", data.error || "Failed to sign up.");
       }
@@ -84,7 +88,7 @@ export default function SignupScreen({ navigation }) {
         />
 
         <TouchableOpacity style={styles.button} onPress={handleSignup} disabled={loading}>
-          <Text style={styles.buttonText}>{loading ? "Signing Up..." : "Sign Up"}</Text>
+          {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Sign Up</Text>}
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate("Login")}>
