@@ -13,6 +13,7 @@ import DiaryScreen from "../screens/diary";
 import ProgressScreen from "../screens/progress";
 import UploadScreen from "../screens/uploads";
 import WorkoutDetailsScreen from "../screens/WorkoutDetailsScreen";
+import UpdateUserDetailsScreen from "../screens/update-user";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,6 +25,9 @@ function MainTabs() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Diary" component={DiaryScreen} />
       <Tab.Screen name="uploads" component={UploadScreen} />
+      <Tab.Screen name="update-user" component={UpdateUserDetailsScreen} />
+
+
     </Tab.Navigator>
   );
 }
