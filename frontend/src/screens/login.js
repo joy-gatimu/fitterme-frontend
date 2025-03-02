@@ -8,20 +8,25 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
   Alert,
+  Image,
+  Dimensions, // Import Dimensions to get screen width
 } from "react-native";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Get the screen width using Dimensions
+  const screenWidth = Dimensions.get("window").width;
+
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert("Error", "Please enter email and password");
+      Alert.alert("Error", "Please enter email and password.");
       return;
     }
 
     try {
-      const response = await fetch("https://fitter-me-backend-1.onrender.com//login", {
+      const response = await fetch("https://fitter-me-backend-1.onrender.com/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -31,9 +36,9 @@ export default function LoginScreen({ navigation }) {
 
       if (response.ok) {
         Alert.alert("Success", "Login successful!");
-        navigation.replace("MainTabs", { userId: data.id }); // ✅ Pass user ID
+        navigation.replace("MainTabs", { userId: data.id });
       } else {
-        Alert.alert("Error", data.error || "Login failed");
+        Alert.alert("Error", data.error || "Login failed.");
       }
     } catch (error) {
       Alert.alert("Error", "Network error. Please try again.");
@@ -43,33 +48,42 @@ export default function LoginScreen({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <Text style={styles.title}>Login</Text>
-
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          keyboardType="email-address"
-          value={email}
-          onChangeText={setEmail}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
+        {/* Logo at the top of the screen */}
+        <Image
+          source={require("../assets/logo.png")} // Update the path to your logo
+          style={[styles.logo, { width: screenWidth }]} // Set width to screen width
+          resizeMode="cover" // Ensure the logo scales properly
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
+        <View style={styles.formContainer}>
+          <Text style={styles.title}>Login</Text>
 
-        <TouchableOpacity
-          style={styles.signupButton}
-          onPress={() => navigation.navigate("Signup")}
-        >
-          <Text style={styles.signupText}>Don't have an account? Sign up</Text>
-        </TouchableOpacity>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            keyboardType="email-address"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+          />
+
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.signupButton}
+            onPress={() => navigation.navigate("Signup")}
+          >
+            <Text style={styles.signupText}>Don't have an account? Sign up</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -78,9 +92,16 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
+  },
+  logo: {
+    height: 150, // Adjust the height as needed
+    alignSelf: "center",
+  },
+  formContainer: {
+    flex: 1,
     justifyContent: "center",
     padding: 20,
-    backgroundColor: "#fff",
   },
   title: {
     fontSize: 28,

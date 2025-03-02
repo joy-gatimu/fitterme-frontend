@@ -1,61 +1,71 @@
 import React from "react";
-import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ImageBackground,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions, // Import Dimensions to get screen dimensions
+} from "react-native";
 
 export default function WelcomeScreen({ navigation }) {
+  // Get the screen dimensions using Dimensions
+  const screenWidth = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("window").height;
+
   return (
     <ImageBackground
-    source={require("../assets/welcome.jpg")} 
-    style={styles.background}
-    resizeMode="cover"
-  >
-   
+      source={require("../assets/welcome.jpg")} // Update the path to your background image
+      style={styles.background}
+      resizeMode="cover" // Ensure the image covers the entire screen
+    >
       <View style={styles.overlay}>
         <Text style={styles.title}>Welcome To{"\n"}Fitter Me</Text>
         <Text style={styles.tagline}>"Where we monitor your fitness journey"</Text>
 
-        <TouchableOpacity style={styles.nextButton} onPress={() => navigation.navigate("Login")}>
+        <TouchableOpacity
+          style={styles.nextButton}
+          onPress={() => navigation.navigate("Login")}
+        >
           <Text style={styles.nextButtonText}>Next</Text>
         </TouchableOpacity>
       </View>
-   </ImageBackground>
-   
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
+    width: "100%", // Ensure the background covers the entire width
+    height: "100%", // Ensure the background covers the entire height
   },
   overlay: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    width: "100%",
+    backgroundColor: "rgba(255, 255, 255, 0.5)", // Add a semi-transparent overlay for better readability
     padding: 20,
   },
   title: {
-    fontSize: 28,
+    fontSize: 32, // Increased font size for better visibility
     fontWeight: "bold",
     color: "#333",
     textAlign: "center",
     marginBottom: 10,
   },
   tagline: {
-    fontSize: 16,
+    fontSize: 18, // Increased font size for better visibility
     fontStyle: "italic",
     color: "#444",
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: 40, // Increased margin for better spacing
   },
   nextButton: {
     backgroundColor: "#C62828",
-    paddingVertical: 12,
-    paddingHorizontal: 40,
-    borderRadius: 5,
+    paddingVertical: 15,
+    paddingHorizontal: 50,
+    borderRadius: 8, // Slightly rounded corners
     marginTop: 20,
   },
   nextButtonText: {
