@@ -27,7 +27,7 @@ export default function HomeScreen({ navigation }) {
         {/* Workout Section */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("Workout")}
+          onPress={() => navigation.navigate("WorkoutScreens")}
         >
           <Text style={styles.buttonText}>Go to Workout</Text>
         </TouchableOpacity>

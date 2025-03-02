@@ -12,6 +12,7 @@ import WorkoutScreen from "../screens/WorkoutScreen";
 import DiaryScreen from "../screens/diary";
 import ProgressScreen from "../screens/progress";
 import UploadScreen from "../screens/uploads";
+import WorkoutDetailsScreen from "../screens/WorkoutDetailsScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,6 +42,11 @@ export default function AppNavigator() {
         <Stack.Screen name="GoalSelection" component={GoalSelectionScreen} />
         {/* 🔹 Redirect to Home after completing Goal Selection */}
         <Stack.Screen name="MainTabs" component={MainTabs} />
+        <Stack.Screen name="WorkoutScreens" component={WorkoutScreen} />
+        <Stack.Screen name="WorkoutDetailsScreen" component={WorkoutDetailsScreen} />
+
+
+
       </Stack.Navigator>
     </NavigationContainer>
   );
