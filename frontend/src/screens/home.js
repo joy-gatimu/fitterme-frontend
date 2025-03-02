@@ -16,10 +16,12 @@ export default function HomeScreen({ navigation }) {
   const [username, setUsername] = useState("Guest");
   const [loading, setLoading] = useState(true);
 
+  // Function to fetch user details from AsyncStorage and backend
   const fetchUserDetails = async () => {
     try {
       console.log("Fetching user details...");
       const storedUserId = await AsyncStorage.getItem("userId");
+      console.log("Stored User ID:", storedUserId); // Debug log
 
       if (!storedUserId) {
         Alert.alert("Session Expired", "Please log in again.", [
@@ -33,15 +35,19 @@ export default function HomeScreen({ navigation }) {
       if (!response.ok) throw new Error("Failed to fetch users");
 
       const users = await response.json();
-      console.log("Fetched users:", users);
+      console.log("Fetched users:", users); // Debug log
 
       // Find the user with the stored userId
       const user = users.find((u) => u.id.toString() === storedUserId);
+      console.log("Found User:", user); // Debug log
 
       if (user) {
         setUsername(user.username);
       } else {
+        // Clear invalid user ID
+        await AsyncStorage.removeItem("userId");
         setUsername("Guest");
+        Alert.alert("User Not Found", "Please log in again.");
       }
     } catch (error) {
       console.error("Error fetching user details:", error);
@@ -51,6 +57,7 @@ export default function HomeScreen({ navigation }) {
     }
   };
 
+  // Use focus effect to fetch user details when the screen is focused
   useFocusEffect(
     useCallback(() => {
       setLoading(true);
@@ -84,6 +91,27 @@ export default function HomeScreen({ navigation }) {
     </View>
   );
 }
+
+// Example login function to store user ID in AsyncStorage
+export const handleLogin = async (userId) => {
+  try {
+    await AsyncStorage.setItem("userId", userId.toString());
+    console.log("User ID stored:", userId); // Debug log
+    // Navigate to HomeScreen or perform other actions
+  } catch (error) {
+    console.error("Failed to store userId:", error);
+  }
+};
+
+// Example logout function to clear user ID from AsyncStorage
+export const handleLogout = async () => {
+  try {
+    await AsyncStorage.removeItem("userId");
+    console.log("User ID removed on logout"); // Debug log
+  } catch (error) {
+    console.error("Failed to remove userId:", error);
+  }
+};
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
