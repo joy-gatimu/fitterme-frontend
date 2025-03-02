@@ -22,31 +22,35 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert("Error", "Please enter email and password.");
-      return;
+        Alert.alert("Error", "Please enter email and password.");
+        return;
     }
 
     try {
-      const response = await fetch("https://fitter-me-backend-1.onrender.com/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+        const response = await fetch("https://fitter-me-backend-1.onrender.com/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+        });
 
-      const data = await response.json();
+        const data = await response.json();
+        console.log("Login Response Data:", data); // Log the response from the server
 
-      if (response.ok) {
-        // Store user ID in AsyncStorage
-        await AsyncStorage.setItem("userId", data.id.toString());
-        Alert.alert("Success", "Login successful!");
-        navigation.replace("MainTabs", { userId: data.id });
-      } else {
-        Alert.alert("Error", data.error || "Login failed.");
-      }
+        if (response.ok) {
+            await AsyncStorage.setItem("userId", data.id.toString());
+            const storedUserId = await AsyncStorage.getItem("userId");
+            console.log("Stored User ID:", storedUserId); // Log the stored user ID
+
+            Alert.alert("Success", "Login successful!");
+            navigation.replace("MainTabs", { userId: data.id });
+        } else {
+            Alert.alert("Error", data.error || "Login failed.");
+        }
     } catch (error) {
-      Alert.alert("Error", "Network error. Please try again.");
+        Alert.alert("Error", "Network error. Please try again.");
     }
-  };
+};
+
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
