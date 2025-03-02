@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Camera } from "expo-camera";
+import { RNCamera } from "react-native-camera";
 
 export default function WorkoutDetailsScreen({ route, navigation }) {
   const { workout } = route.params;
@@ -9,21 +9,25 @@ export default function WorkoutDetailsScreen({ route, navigation }) {
   const [isCameraOpen, setIsCameraOpen] = useState(false);
   const cameraRef = useRef(null);
 
-  // Request Camera Permission
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
+      console.log("Camera Permission Status:", status); // Debugging log
+
       if (status === "granted") {
         setHasPermission(true);
       } else {
         setHasPermission(false);
         Alert.alert(
-          "Camera Permission Denied",
-          "Please enable camera access in settings to record workouts."
+          "Permission Required",
+          "Camera access is needed to record workouts. Please enable it in settings."
         );
       }
     })();
   }, []);
+
+  
+  
 
   // Open Camera
   const handleOpenCamera = () => {
@@ -83,11 +87,16 @@ export default function WorkoutDetailsScreen({ route, navigation }) {
       {/* Camera View */}
       {isCameraOpen && (
         <View style={styles.cameraContainer}>
-          <Camera style={styles.camera} ref={cameraRef}>
+          <RNCamera
+            ref={cameraRef}
+            style={styles.camera}
+            type={RNCamera.Constants.Type.back}
+            flashMode={RNCamera.Constants.FlashMode.off}
+          >
             <TouchableOpacity style={styles.closeButton} onPress={handleCloseCamera}>
               <Ionicons name="close" size={30} color="white" />
             </TouchableOpacity>
-          </Camera>
+          </RNCamera>
         </View>
       )}
     </View>
