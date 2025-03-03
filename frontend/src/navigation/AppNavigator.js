@@ -1,6 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import Ionicons from "react-native-vector-icons/Ionicons"; // ✅ Import Ionicons
 import WelcomeScreen from "../screens/WelcomeScreen";
 import LoginScreen from "../screens/login";
 import SignupScreen from "../screens/signup";
@@ -17,16 +18,36 @@ import UpdateUserDetailsScreen from "../screens/update-user";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// 🔹 Bottom Navigation: Home Contains Diary, Workout & Progress
+// 🔹 Bottom Navigation with Icons
 function MainTabs() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarIcon: ({ color, size }) => {
+          let iconName;
+
+          if (route.name === "Home") {
+            iconName = "home-outline";
+          } else if (route.name === "Diary") {
+            iconName = "book-outline";
+          } else if (route.name === "Uploads") {
+            iconName = "cloud-upload-outline";
+          } else if (route.name === "Update User") {
+            iconName = "person-circle-outline";
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: "#ff6600", // Orange for active tab
+        tabBarInactiveTintColor: "gray",
+        tabBarStyle: { backgroundColor: "#fff", paddingBottom: 5, height: 60 },
+      })}
+    >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Diary" component={DiaryScreen} />
-      <Tab.Screen name="uploads" component={UploadScreen} />
-      <Tab.Screen name="update-user" component={UpdateUserDetailsScreen} />
-
-
+      <Tab.Screen name="Uploads" component={UploadScreen} />
+      <Tab.Screen name="Update User" component={UpdateUserDetailsScreen} />
     </Tab.Navigator>
   );
 }
@@ -47,9 +68,6 @@ export default function AppNavigator() {
         <Stack.Screen name="MainTabs" component={MainTabs} />
         <Stack.Screen name="WorkoutScreens" component={WorkoutScreen} />
         <Stack.Screen name="WorkoutDetailsScreen" component={WorkoutDetailsScreen} />
-
-
-
       </Stack.Navigator>
     </NavigationContainer>
   );
