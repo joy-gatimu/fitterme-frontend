@@ -5,7 +5,7 @@ import {
   ImageBackground,
   StyleSheet,
   TouchableOpacity,
-  Dimensions, 
+  Dimensions,
 } from "react-native";
 
 export default function WelcomeScreen({ navigation }) {
@@ -14,9 +14,9 @@ export default function WelcomeScreen({ navigation }) {
 
   return (
     <ImageBackground
-      source={require("../assets/welcome.jpg")} 
+      source={require("../assets/welcome.jpg")}
       style={styles.background}
-      resizeMode="cover" 
+      resizeMode="cover"
     >
       <View style={styles.overlay}>
         <Text style={styles.title}>Welcome To{"\n"}Fitter Me</Text>
@@ -36,18 +36,22 @@ export default function WelcomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    width: "100%", 
+    width: "100%",
     height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   overlay: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.5)", 
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
     padding: 20,
+    width: "100%", 
+    height: "100%", 
   },
   title: {
-    fontSize: 32, 
+    fontSize: 32,
     fontWeight: "bold",
     color: "#333",
     textAlign: "center",

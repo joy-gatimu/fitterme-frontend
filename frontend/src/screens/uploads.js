@@ -5,8 +5,8 @@ import {
   Text,
   StyleSheet,
   Image,
-  ScrollView, // Import ScrollView
-  Dimensions, // Import Dimensions to get screen width
+  ScrollView, 
+  Dimensions, 
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Video } from "expo-av";
@@ -85,9 +85,9 @@ export default function UploadScreen({ navigation }) {
         {/* Header */}
         <View style={styles.header}>
           <Image
-            source={require("../assets/logo.png")} // Update the path to your logo
-            style={[styles.logo, { width: screenWidth }]} // Set width to screen width
-            resizeMode="cover" // Ensure the logo scales properly
+            source={require("../assets/logo.png")}
+            style={[styles.logo, { width: screenWidth }]}
+            resizeMode="cover" 
           />
         </View>
 
@@ -162,16 +162,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
-    height: 150, // Fixed height for the bar graph
+    height: 150,
     marginBottom: 20,
   },
   barContainer: {
     alignItems: "center",
-    width: "12%", // Equal width for each bar
+    width: "12%", 
   },
   bar: {
     width: "80%",
-    backgroundColor: "#4caf50", // Green color for bars
+    backgroundColor: "#4caf50", 
     borderRadius: 5,
   },
   barLabel: {
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
   },
   progressFill: {
     height: "100%",
-    backgroundColor: "#4caf50", // Green color for progress
+    backgroundColor: "#4caf50",
     borderRadius: 5,
   },
   uploadButton: {
