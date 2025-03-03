@@ -6,13 +6,12 @@ import {
   StyleSheet,
   Alert,
   Image,
-  Dimensions, // Import Dimensions to get screen width
+  Dimensions, 
 } from "react-native";
 
 export default function FitnessRoutineScreen({ navigation }) {
   const [selectedOption, setSelectedOption] = useState(null);
 
-  // Get the screen width using Dimensions
   const screenWidth = Dimensions.get("window").width;
 
   const handleNext = () => {
@@ -20,16 +19,15 @@ export default function FitnessRoutineScreen({ navigation }) {
       return Alert.alert("Error", "Please select an option.");
     }
 
-    navigation.navigate("GoalSelection"); // ✅ Redirects to Goal Selection
+    navigation.navigate("GoalSelection"); 
   };
 
   return (
     <View style={styles.container}>
-      {/* Logo at the top of the screen */}
       <Image
-        source={require("../assets/logo.png")} // Update the path to your logo
-        style={[styles.logo, { width: screenWidth }]} // Set width to screen width
-        resizeMode="cover" // Ensure the logo scales properly
+        source={require("../assets/logo.png")} 
+        style={[styles.logo, { width: screenWidth }]} 
+        resizeMode="cover"
       />
 
       <View style={styles.formContainer}>
@@ -63,7 +61,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   logo: {
-    height: 150, // Adjust the height as needed
+    height: 150, 
     alignSelf: "center",
   },
   formContainer: {

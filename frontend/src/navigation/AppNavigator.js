@@ -10,7 +10,6 @@ import GoalSelectionScreen from "../screens/GoalSelectionScreen";
 import HomeScreen from "../screens/home";
 import WorkoutScreen from "../screens/WorkoutScreen";
 import DiaryScreen from "../screens/diary";
-import ProgressScreen from "../screens/progress";
 import UploadScreen from "../screens/uploads";
 import WorkoutDetailsScreen from "../screens/WorkoutDetailsScreen";
 import UpdateUserDetailsScreen from "../screens/update-user";

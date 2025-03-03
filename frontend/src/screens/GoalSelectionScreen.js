@@ -6,14 +6,13 @@ import {
   StyleSheet,
   Alert,
   Image,
-  Dimensions, // Import Dimensions to get screen width
+  Dimensions, 
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function GoalSelectionScreen({ navigation }) {
   const [selectedGoal, setSelectedGoal] = useState(null);
 
-  // Get the screen width using Dimensions
   const screenWidth = Dimensions.get("window").width;
 
   const handleGoalSelection = async () => {
@@ -27,11 +26,10 @@ export default function GoalSelectionScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* Logo at the top of the screen */}
       <Image
-        source={require("../assets/logo.png")} // Update the path to your logo
-        style={[styles.logo, { width: screenWidth }]} // Set width to screen width
-        resizeMode="cover" // Ensure the logo scales properly
+        source={require("../assets/logo.png")} 
+        style={[styles.logo, { width: screenWidth }]} 
+        resizeMode="cover"
       />
 
       <View style={styles.formContainer}>
@@ -72,7 +70,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   logo: {
-    height: 150, // Adjust the height as needed
+    height: 150, 
     alignSelf: "center",
   },
   formContainer: {

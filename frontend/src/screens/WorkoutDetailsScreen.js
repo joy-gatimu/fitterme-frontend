@@ -12,7 +12,7 @@ export default function WorkoutDetailsScreen({ route, navigation }) {
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
-      console.log("Camera Permission Status:", status); // Debugging log
+      console.log("Camera Permission Status:", status); 
 
       if (status === "granted") {
         setHasPermission(true);
@@ -51,8 +51,7 @@ export default function WorkoutDetailsScreen({ route, navigation }) {
       </TouchableOpacity>
 
       {/* App Logo */}
-      <Text style={styles.logo}>FITNESS PRO</Text>
-
+      
       {/* Calories and Duration */}
       <View style={styles.statsContainer}>
         <View style={styles.statItem}>

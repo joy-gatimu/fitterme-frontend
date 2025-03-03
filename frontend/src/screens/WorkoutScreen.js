@@ -14,7 +14,7 @@ export default function GoalSelectionScreen({ navigation }) {
 
   // Fetch workouts from Flask API
   useEffect(() => {
-    fetch("https://fitter-me-backend-1.onrender.com/workouts") // Update with your Flask API URL
+    fetch("https://fitter-me-backend-1.onrender.com/workouts") 
       .then((response) => response.json())
       .then((data) => {
         setWorkouts(data);

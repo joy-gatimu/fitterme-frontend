@@ -5,19 +5,18 @@ import {
   ImageBackground,
   StyleSheet,
   TouchableOpacity,
-  Dimensions, // Import Dimensions to get screen dimensions
+  Dimensions, 
 } from "react-native";
 
 export default function WelcomeScreen({ navigation }) {
-  // Get the screen dimensions using Dimensions
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
 
   return (
     <ImageBackground
-      source={require("../assets/welcome.jpg")} // Update the path to your background image
+      source={require("../assets/welcome.jpg")} 
       style={styles.background}
-      resizeMode="cover" // Ensure the image covers the entire screen
+      resizeMode="cover" 
     >
       <View style={styles.overlay}>
         <Text style={styles.title}>Welcome To{"\n"}Fitter Me</Text>
@@ -37,35 +36,35 @@ export default function WelcomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    width: "100%", // Ensure the background covers the entire width
-    height: "100%", // Ensure the background covers the entire height
+    width: "100%", 
+    height: "100%",
   },
   overlay: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.5)", // Add a semi-transparent overlay for better readability
+    backgroundColor: "rgba(255, 255, 255, 0.5)", 
     padding: 20,
   },
   title: {
-    fontSize: 32, // Increased font size for better visibility
+    fontSize: 32, 
     fontWeight: "bold",
     color: "#333",
     textAlign: "center",
     marginBottom: 10,
   },
   tagline: {
-    fontSize: 18, // Increased font size for better visibility
+    fontSize: 18,
     fontStyle: "italic",
     color: "#444",
     textAlign: "center",
-    marginBottom: 40, // Increased margin for better spacing
+    marginBottom: 40,
   },
   nextButton: {
     backgroundColor: "#C62828",
     paddingVertical: 15,
     paddingHorizontal: 50,
-    borderRadius: 8, // Slightly rounded corners
+    borderRadius: 8,
     marginTop: 20,
   },
   nextButtonText: {

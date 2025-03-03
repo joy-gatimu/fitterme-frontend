@@ -1,23 +1,50 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView, // Import ScrollView
+  Dimensions, // Import Dimensions to get screen width
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Video } from "expo-av";
 
+// Reusable Bar Graph Component
+const BarGraph = ({ weeklyProgress }) => {
+  return (
+    <View style={styles.barGraphContainer}>
+      {weeklyProgress.map((day, index) => (
+        <View key={index} style={styles.barContainer}>
+          <View style={[styles.bar, { height: `${day.progress}%` }]} />
+          <Text style={styles.barLabel}>{day.day}</Text>
+        </View>
+      ))}
+    </View>
+  );
+};
+
 export default function UploadScreen({ navigation }) {
   const [videoUri, setVideoUri] = useState(null);
-  const [caloriesBurned, setCaloriesBurned] = useState(3500); // Track calories burned
+  const [caloriesBurned, setCaloriesBurned] = useState(0); // Start calories burned from 0
   const totalCalories = 5000; // Total calories goal
 
-  // Simulated progress data for each day of the week
-  const [weeklyProgress, setWeeklyProgress] = useState([
-    { day: "Mon", progress: 60 }, // Progress in percentage
-    { day: "Tue", progress: 40 },
-    { day: "Wed", progress: 80 },
-    { day: "Thu", progress: 30 },
-    { day: "Fri", progress: 90 },
-    { day: "Sat", progress: 50 },
-    { day: "Sun", progress: 70 },
-  ]);
+  // Get the screen width using Dimensions
+  const screenWidth = Dimensions.get("window").width;
+
+  // Initial progress data for each day of the week
+  const initialWeeklyProgress = [
+    { day: "Mon", progress: 0 },
+    { day: "Tue", progress: 0 },
+    { day: "Wed", progress: 0 },
+    { day: "Thu", progress: 0 },
+    { day: "Fri", progress: 0 },
+    { day: "Sat", progress: 0 },
+    { day: "Sun", progress: 0 },
+  ];
+
+  const [weeklyProgress, setWeeklyProgress] = useState(initialWeeklyProgress);
 
   const pickVideo = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -44,64 +71,67 @@ export default function UploadScreen({ navigation }) {
     }
   };
 
+  // Reset progress to initial values
+  const resetProgress = () => {
+    setCaloriesBurned(0); // Reset calories burned to 0
+    setWeeklyProgress(initialWeeklyProgress);
+  };
+
   const progressPercentage = (caloriesBurned / totalCalories) * 100; // Calculate progress percentage
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>IFITTERME</Text>
-        <TouchableOpacity style={styles.filterButton}>
-          <Text style={styles.filterText}>Filter by</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* User Name */}
-      <Text style={styles.userName}>JOHN DOE</Text>
-
-      {/* Monthly Progress Section */}
-      <Text style={styles.sectionTitle}>Monthly Progress</Text>
-      <View style={styles.barGraphContainer}>
-        {weeklyProgress.map((day, index) => (
-          <View key={index} style={styles.barContainer}>
-            <View style={[styles.bar, { height: `${day.progress}%` }]} />
-            <Text style={styles.barLabel}>{day.day}</Text>
-          </View>
-        ))}
-      </View>
-
-      {/* Calories Burned Progress */}
-      <View style={styles.progressContainer}>
-        <Text style={styles.progressText}>
-          Calories Burned: {caloriesBurned}/{totalCalories}
-        </Text>
-        <View style={styles.progressBar}>
-          <View
-            style={[styles.progressFill, { width: `${progressPercentage}%` }]}
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <Image
+            source={require("../assets/logo.png")} // Update the path to your logo
+            style={[styles.logo, { width: screenWidth }]} // Set width to screen width
+            resizeMode="cover" // Ensure the logo scales properly
           />
         </View>
+
+        
+        {/* Monthly Progress Section */}
+        <Text style={styles.sectionTitle}>Monthly Progress</Text>
+        <BarGraph weeklyProgress={weeklyProgress} />
+
+        {/* Calories Burned Progress */}
+        <View style={styles.progressContainer}>
+          <Text style={styles.progressText}>
+            Calories Burned: {caloriesBurned}/{totalCalories}
+          </Text>
+          <View style={styles.progressBar}>
+            <View
+              style={[styles.progressFill, { width: `${progressPercentage}%` }]}
+            />
+          </View>
+        </View>
+
+        {/* Video Upload Section */}
+        <TouchableOpacity style={styles.uploadButton} onPress={pickVideo}>
+          <Text style={styles.uploadButtonText}>Upload Workout Video</Text>
+        </TouchableOpacity>
+
+        {/* Display the selected video */}
+        {videoUri && <Video source={{ uri: videoUri }} style={styles.video} shouldPlay />}
+
+        {/* Buttons */}
+        <TouchableOpacity style={styles.updateButton} onPress={resetProgress}>
+          <Text style={styles.updateButtonText}>Reset Progress</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
+          <Text style={styles.goBackButtonText}>Go Back</Text>
+        </TouchableOpacity>
       </View>
-
-      {/* Video Upload Section */}
-      <TouchableOpacity style={styles.uploadButton} onPress={pickVideo}>
-        <Text style={styles.uploadButtonText}>Upload Workout Video</Text>
-      </TouchableOpacity>
-
-      {/* Display the selected video */}
-      {videoUri && <Video source={{ uri: videoUri }} style={styles.video} shouldPlay />}
-
-      {/* Buttons */}
-      <TouchableOpacity style={styles.updateButton}>
-        <Text style={styles.updateButtonText}>Update Progress</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.goBackButtonText}>Go Back</Text>
-      </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+  },
   container: {
     flex: 1,
     padding: 20,
@@ -109,23 +139,12 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center", // Center the logo
     alignItems: "center",
     marginBottom: 20,
   },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  filterButton: {
-    padding: 10,
-    backgroundColor: "#e0e0e0",
-    borderRadius: 5,
-  },
-  filterText: {
-    fontSize: 14,
-    color: "#333",
+  logo: {
+    height: 150, // Adjust the height as needed
   },
   userName: {
     fontSize: 18,

@@ -11,15 +11,13 @@ import {
   ActivityIndicator,
   Image,
   Dimensions,
-  ScrollView, // Add ScrollView for scrollable content
+  ScrollView, 
 } from "react-native";
-import { Picker } from "@react-native-picker/picker"; // For dropdown selection
+import { Picker } from "@react-native-picker/picker"; 
 
 export default function UserDetailsScreen({ route, navigation }) {
-  // Extract user ID from navigation route
   const { user_id } = route.params || {};
 
-  // State for user details
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [birthdate, setBirthdate] = useState("");
@@ -27,61 +25,55 @@ export default function UserDetailsScreen({ route, navigation }) {
   const [targetWeight, setTargetWeight] = useState("");
   const [height, setHeight] = useState("");
   const [programDuration, setProgramDuration] = useState("");
-  const [genderId, setGenderId] = useState(null); // Selected gender ID
-  const [genders, setGenders] = useState([]); // List of genders from the server
-  const [isLoading, setIsLoading] = useState(false); // Loading state for API calls
+  const [genderId, setGenderId] = useState(null); 
+  const [genders, setGenders] = useState([]); 
+  const [isLoading, setIsLoading] = useState(false); 
 
-  // Constants for user role and achievement (hardcoded for now)
-  const roleId = 2; // Default role ID
-  const achievementId = 1; // Default achievement ID
-
-  // Get screen width for responsive design
+  const roleId = 2; 
+  const achievementId = 1; 
   const screenWidth = Dimensions.get("window").width;
 
-  // Fetch genders from the server when the component mounts
+  
   useEffect(() => {
     console.log("📌 User ID received from route:", user_id);
 
-    // Check if user ID is missing
+    
     if (!user_id) {
       Alert.alert("Error", "User ID is missing. Please try again.");
-      navigation.goBack(); // Go back to the previous screen
+      navigation.goBack(); 
       return;
     }
 
-    fetchGenders(); // Fetch gender options from the server
+    fetchGenders(); 
   }, []);
 
-  // Fetch gender options from the server
+  
   const fetchGenders = async () => {
     try {
       const response = await fetch("https://fitter-me-backend-1.onrender.com/genders");
       const data = await response.json();
-      setGenders(data); // Update the list of genders
+      setGenders(data);
     } catch (error) {
       console.error("❌ Error fetching genders:", error);
       Alert.alert("Error", "Failed to fetch gender options. Please check your connection.");
     }
   };
 
-  // Handle form submission
+ 
   const handleSubmit = async () => {
-    // Validate all fields are filled
     if (!firstName || !lastName || !birthdate || !currentWeight || !targetWeight || !height || !programDuration || !genderId) {
       return Alert.alert("Error", "Please fill in all fields.");
     }
 
-    // Validate birthdate format (YYYY-MM-DD)
     if (!birthdate.match(/^\d{4}-\d{2}-\d{2}$/)) {
       return Alert.alert("Error", "Birthdate must be in YYYY-MM-DD format.");
     }
 
-    // Prepare user details for submission
     const userDetails = {
       user_id,
       first_name: firstName,
       last_name: lastName,
-      birthdate: new Date(birthdate).toISOString().split("T")[0], // Format birthdate
+      birthdate: new Date(birthdate).toISOString().split("T")[0], 
       current_weight: Number(currentWeight),
       target_weight: Number(targetWeight),
       height: Number(height),
@@ -93,10 +85,9 @@ export default function UserDetailsScreen({ route, navigation }) {
 
     console.log("🚀 Sending user details:", JSON.stringify(userDetails, null, 2));
 
-    setIsLoading(true); // Show loading spinner
+    setIsLoading(true); 
 
     try {
-      // Send user details to the server
       const response = await fetch("https://fitter-me-backend-1.onrender.com/user-details", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -109,11 +100,11 @@ export default function UserDetailsScreen({ route, navigation }) {
       try {
         const responseData = JSON.parse(responseText);
 
-        setIsLoading(false); // Hide loading spinner
+        setIsLoading(false); 
 
         if (response.ok) {
           Alert.alert("Success", "Profile updated successfully!");
-          navigation.navigate("FitnessRoutine"); // Navigate to the next screen
+          navigation.navigate("FitnessRoutine"); 
         } else {
           Alert.alert("Error", responseData.error || "Failed to update profile. Please try again.");
         }
@@ -122,7 +113,7 @@ export default function UserDetailsScreen({ route, navigation }) {
         Alert.alert("Error", "Unexpected server response. Please try again.");
       }
     } catch (error) {
-      setIsLoading(false); // Hide loading spinner
+      setIsLoading(false); 
       console.error("❌ Error submitting user details:", error);
       Alert.alert("Error", "Failed to connect to the server. Please check your connection.");
     }
@@ -130,20 +121,17 @@ export default function UserDetailsScreen({ route, navigation }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      {/* Wrap the entire content in a ScrollView */}
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
-          {/* Logo at the top of the screen */}
           <Image
-            source={require("../assets/logo.png")} // Path to your logo
-            style={[styles.logo, { width: screenWidth }]} // Full-width logo
-            resizeMode="cover" // Scale the logo to fit
+            source={require("../assets/logo.png")}
+            style={[styles.logo, { width: screenWidth }]} 
+            resizeMode="cover"
           />
 
-          {/* Screen title */}
           <Text style={styles.title}>Complete Your Profile</Text>
 
-          {/* Input fields for user details */}
+      
           <TextInput
             style={styles.input}
             placeholder="First Name"
@@ -191,7 +179,6 @@ export default function UserDetailsScreen({ route, navigation }) {
             onChangeText={setProgramDuration}
           />
 
-          {/* Gender selection dropdown */}
           <Text style={styles.label}>Select Gender</Text>
           <View style={styles.pickerContainer}>
             <Picker
@@ -206,14 +193,13 @@ export default function UserDetailsScreen({ route, navigation }) {
             </Picker>
           </View>
 
-          {/* Submit button */}
           <TouchableOpacity
             style={styles.button}
             onPress={handleSubmit}
             disabled={isLoading}
           >
             {isLoading ? (
-              <ActivityIndicator color="#fff" /> // Show loading spinner
+              <ActivityIndicator color="#fff" /> 
             ) : (
               <Text style={styles.buttonText}>Submit</Text>
             )}
@@ -223,11 +209,9 @@ export default function UserDetailsScreen({ route, navigation }) {
     </TouchableWithoutFeedback>
   );
 }
-
-// Styles for the screen
 const styles = StyleSheet.create({
   scrollContainer: {
-    flexGrow: 1, // Allow the content to scroll
+    flexGrow: 1, 
   },
   container: {
     flex: 1,
@@ -236,9 +220,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   logo: {
-    height: 150, // Adjust height as needed
+    height: 150, 
     alignSelf: "center",
-    marginBottom: 20, // Spacing below the logo
+    marginBottom: 20, 
   },
   title: {
     fontSize: 28,

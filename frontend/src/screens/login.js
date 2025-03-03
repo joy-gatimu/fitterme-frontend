@@ -11,13 +11,13 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
+import AsyncStorage from "@react-native-async-storage/async-storage"; 
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Get the screen width using Dimensions
+
   const screenWidth = Dimensions.get("window").width;
 
   const handleLogin = async () => {
@@ -34,12 +34,12 @@ export default function LoginScreen({ navigation }) {
         });
 
         const data = await response.json();
-        console.log("Login Response Data:", data); // Log the response from the server
+        console.log("Login Response Data:", data); 
 
         if (response.ok) {
             await AsyncStorage.setItem("userId", data.id.toString());
             const storedUserId = await AsyncStorage.getItem("userId");
-            console.log("Stored User ID:", storedUserId); // Log the stored user ID
+            console.log("Stored User ID:", storedUserId);
 
             Alert.alert("Success", "Login successful!");
             navigation.replace("MainTabs", { userId: data.id });

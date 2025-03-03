@@ -10,7 +10,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   Image,
-  Dimensions, // Import Dimensions to get screen width
+  Dimensions, 
 } from "react-native";
 
 export default function SignupScreen({ navigation }) {
@@ -19,7 +19,7 @@ export default function SignupScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Get screen width using Dimensions
+ 
   const screenWidth = Dimensions.get("window").width;
 
   const handleSignup = async () => {
@@ -48,7 +48,7 @@ export default function SignupScreen({ navigation }) {
 
       let data;
       try {
-        data = JSON.parse(text); // Attempt to parse the response as JSON
+        data = JSON.parse(text); 
       } catch (error) {
         console.error("Failed to parse JSON:", error);
         throw new Error("Invalid JSON response from server.");
@@ -72,11 +72,10 @@ export default function SignupScreen({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        {/* Logo at the top with full screen width */}
         <Image
-          source={require("../assets/logo.png")} // Ensure the path is correct
-          style={[styles.logo, { width: screenWidth }]} // Set width to full screen width
-          resizeMode="cover" // Use "cover" to fill the width while maintaining aspect ratio
+          source={require("../assets/logo.png")} 
+          style={[styles.logo, { width: screenWidth }]} 
+          resizeMode="cover" 
         />
 
         <View style={styles.formContainer}>
@@ -126,7 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   logo: {
-    height: 200, // Adjust the height as needed
+    height: 200, 
     alignSelf: "center",
   },
   formContainer: {

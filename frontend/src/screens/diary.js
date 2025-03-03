@@ -71,15 +71,15 @@ export default function CreateWorkoutScreen({ navigation }) {
   
     const workoutDetails = {
       user_id: userId,
-      workout_id: selectedWorkout.id, // Sending ID instead of full object
-      workout_date: date.toISOString().split("T")[0], // Changed to workout_date as per your backend
+      workout_id: selectedWorkout.id, 
+      workout_date: date.toISOString().split("T")[0],
     };
   
     console.log("📤 Sending workout data:", JSON.stringify(workoutDetails));
   
     setIsLoading(true);
     try {
-      const response = await fetch("https://fitter-me-backend-1.onrender.com/workouts-done", { // Updated URL
+      const response = await fetch("https://fitter-me-backend-1.onrender.com/workouts-done", { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(workoutDetails),
@@ -92,12 +92,12 @@ export default function CreateWorkoutScreen({ navigation }) {
         Alert.alert("✅ Success", "Workout done added successfully!");
         navigation.goBack();
       } else {
-        console.error("Error details:", responseData); // Log error details
+        console.error("Error details:", responseData); 
         Alert.alert("🚨 Error", responseData.message || "Failed to create workout done record.");
       }
     } catch (error) {
       setIsLoading(false);
-      console.error("🔥 Workout creation error:", error); // Log error in console
+      console.error("🔥 Workout creation error:", error); 
       Alert.alert("❌ Error", "Network error. Please try again.");
     }
   };
