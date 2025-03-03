@@ -7,6 +7,7 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function GoalSelectionScreen({ navigation }) {
   const [workouts, setWorkouts] = useState([]);
@@ -14,7 +15,7 @@ export default function GoalSelectionScreen({ navigation }) {
 
   // Fetch workouts from Flask API
   useEffect(() => {
-    fetch("https://fitter-me-backend-1.onrender.com/workouts") 
+    fetch("https://fitter-me-backend-1.onrender.com/workouts")
       .then((response) => response.json())
       .then((data) => {
         setWorkouts(data);
@@ -49,8 +50,17 @@ export default function GoalSelectionScreen({ navigation }) {
               <Text style={styles.buttonText}>{item.name}</Text>
             </TouchableOpacity>
           )}
+          contentContainerStyle={styles.listContainer} // Add this to style the FlatList content
         />
       )}
+
+      {/* Back Button */}
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={styles.backButton}
+      >
+        <Ionicons name="arrow-back" size={28} color="black" />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -59,8 +69,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
     padding: 20,
   },
   title: {
@@ -73,13 +81,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#ff6600",
     padding: 15,
     borderRadius: 8,
-    marginTop: 10,
-    width: "80%",
+    marginVertical: 10, // Adjusted margin
+    width: "100%", // Adjusted width
     alignItems: "center",
   },
   buttonText: {
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  backButton: {
+    position: "absolute",
+    top: 40,
+    left: 20,
+  },
+  listContainer: {
+    flexGrow: 1, // Ensures the FlatList content takes up the available space
   },
 });

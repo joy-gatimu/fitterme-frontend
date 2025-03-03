@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   selected: {
-    backgroundColor: "#ff6600",
+    backgroundColor: "#2196f3",
   },
   nextButton: {
     backgroundColor: "#ff6600",

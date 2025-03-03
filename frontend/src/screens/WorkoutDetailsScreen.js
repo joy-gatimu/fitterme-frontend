@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { RNCamera } from "react-native-camera";
 
@@ -9,10 +9,12 @@ export default function WorkoutDetailsScreen({ route, navigation }) {
   const [isCameraOpen, setIsCameraOpen] = useState(false);
   const cameraRef = useRef(null);
 
+  const screenWidth = Dimensions.get("window").width;
+
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      console.log("Camera Permission Status:", status); 
+      const { status } = await RNCamera.requestPermissionsAsync();
+      console.log("Camera Permission Status:", status);
 
       if (status === "granted") {
         setHasPermission(true);
@@ -25,9 +27,6 @@ export default function WorkoutDetailsScreen({ route, navigation }) {
       }
     })();
   }, []);
-
-  
-  
 
   // Open Camera
   const handleOpenCamera = () => {
@@ -51,7 +50,12 @@ export default function WorkoutDetailsScreen({ route, navigation }) {
       </TouchableOpacity>
 
       {/* App Logo */}
-      
+      <Image
+        source={require("../assets/logo.png")} // Replace with your logo path
+        style={[styles.logo, { width: screenWidth * 0.8 }]} // Adjust width as needed
+        resizeMode="contain"
+      />
+
       {/* Calories and Duration */}
       <View style={styles.statsContainer}>
         <View style={styles.statItem}>
@@ -114,10 +118,8 @@ const styles = StyleSheet.create({
     left: 20,
   },
   logo: {
-    fontSize: 24,
-    fontWeight: "bold",
+    height: 150,
     alignSelf: "center",
-    marginTop: 40,
   },
   statsContainer: {
     flexDirection: "row",

@@ -8,6 +8,7 @@ import {
   Dimensions,
   ActivityIndicator,
   Alert,
+  ScrollView
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
@@ -61,27 +62,40 @@ export default function HomeScreen({ navigation }) {
   );
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={require("../assets/logo.png")}
-        style={[styles.logo, { width: Dimensions.get("window").width }]}
-        resizeMode="cover"
-      />
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.container}>
+        <Image
+          source={require("../assets/logo.png")}
+          style={[styles.logo, { width: Dimensions.get("window").width }]}
+          resizeMode="cover"
+        />
 
-      <View style={styles.formContainer}>
-        {loading ? (
-          <ActivityIndicator size="large" color="#ff6600" />
-        ) : (
-          <>
+        <View style={styles.formContainer}>
+          {loading ? (
+            <ActivityIndicator size="large" color="#ff6600" />
+          ) : (
+            <>
             <Text style={styles.welcomeText}>Welcome, {username}!</Text>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("WorkoutScreens")}>
-              <Text style={styles.buttonText}>Go to Workout</Text>
-            </TouchableOpacity>
-    
-          </>
-        )}
+            <Text style={styles.welcomeMessage}>Welcome To Fitter Me App where we are dedicated to monitor your fitness journey.
+              We give you a variety of workouts where you can select from.The workouts have constant time and constant calories which you will burn.
+              The only thing you need to do is record yourself doing the workout</Text>
+            <View style={styles.imageContainer}>
+                <Image source={require("../assets/m1.png")} style={styles.image} />
+                <Image source={require("../assets/m2.png")} style={styles.image} />
+                <Image source={require("../assets/m3.png")} style={styles.image} />
+                <Image source={require("../assets/m4.png")} style={styles.image} />
+              </View>
+              
+              <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("WorkoutScreens")}>
+                <Text style={styles.buttonText}>Go to Workout</Text>
+              </TouchableOpacity>
+              
+              
+            </>
+          )}
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -104,10 +118,14 @@ export const handleLogout = async () => {
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: { flexGrow: 1 },
   container: { flex: 1, backgroundColor: "#fff" },
   logo: { height: 150, alignSelf: "center" },
   formContainer: { flex: 1, justifyContent: "center", alignItems: "center", padding: 20 },
-  welcomeText: { fontSize: 22, fontWeight: "bold", color: "#333", marginBottom: 10 },
+  welcomeText: { fontSize: 40, fontWeight: "bold", color: "white", marginBottom: 10,backgroundColor:"#00008B" },
+  welcomeMessage:{fontSize: 15, color: "black", marginBottom: 10,fontFamily:"Apple Chancery, cursive"},
   button: { backgroundColor: "#ff6600", paddingVertical: 12, paddingHorizontal: 40, borderRadius: 8, marginTop: 10, alignItems: "center" },
   buttonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
+  imageContainer: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", marginTop: 20 },
+  image: { width: 100, height: 100, margin: 5, borderRadius: 10 },
 });
