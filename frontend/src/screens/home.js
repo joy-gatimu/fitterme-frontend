@@ -89,6 +89,10 @@ export default function HomeScreen({ navigation }) {
               <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("WorkoutScreens")}>
                 <Text style={styles.buttonText}>Go to Workout</Text>
               </TouchableOpacity>
+
+              <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Camera")}>
+                <Text style={styles.buttonText}>Open</Text>
+              </TouchableOpacity>
               
               
             </>

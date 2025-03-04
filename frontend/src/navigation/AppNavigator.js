@@ -14,7 +14,7 @@ import DiaryScreen from "../screens/diary";
 import UploadScreen from "../screens/uploads";
 import WorkoutDetailsScreen from "../screens/WorkoutDetailsScreen";
 import UpdateUserDetailsScreen from "../screens/update-user";
-
+import CameraFunction from "../screens/Camera";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -27,14 +27,21 @@ function MainTabs() {
         tabBarIcon: ({ color, size }) => {
           let iconName;
 
-          if (route.name === "Home") {
-            iconName = "home-outline";
-          } else if (route.name === "Diary") {
-            iconName = "book-outline";
-          } else if (route.name === "Uploads") {
-            iconName = "cloud-upload-outline";
-          } else if (route.name === "Update User") {
-            iconName = "person-circle-outline";
+          switch (route.name) {
+            case "Home":
+              iconName = "home-outline";
+              break;
+            case "Diary":
+              iconName = "book-outline";
+              break;
+            case "Uploads":
+              iconName = "cloud-upload-outline";
+              break;
+            case "Update User":
+              iconName = "person-circle-outline";
+              break;
+            default:
+              iconName = "help-circle-outline"; // Default icon for safety
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -57,7 +64,7 @@ export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* 🔹 First Screen */}
+        {/* 🔹 First Screens */}
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
@@ -68,6 +75,8 @@ export default function AppNavigator() {
         <Stack.Screen name="MainTabs" component={MainTabs} />
         <Stack.Screen name="WorkoutScreens" component={WorkoutScreen} />
         <Stack.Screen name="WorkoutDetailsScreen" component={WorkoutDetailsScreen} />
+        <Stack.Screen name="Camera" component={CameraFunction} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
