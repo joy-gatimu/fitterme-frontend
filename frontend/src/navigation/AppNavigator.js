@@ -15,6 +15,7 @@ import UploadScreen from "../screens/uploads";
 import WorkoutDetailsScreen from "../screens/WorkoutDetailsScreen";
 import UpdateUserDetailsScreen from "../screens/update-user";
 import CameraFunction from "../screens/Camera";
+import VideoScreen from "../screens/Video";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -76,7 +77,9 @@ export default function AppNavigator() {
         <Stack.Screen name="WorkoutScreens" component={WorkoutScreen} />
         <Stack.Screen name="WorkoutDetailsScreen" component={WorkoutDetailsScreen} />
         <Stack.Screen name="Camera" component={CameraFunction} />
-        
+        <Stack.Screen name="Video" component={VideoScreen} />
+
+
       </Stack.Navigator>
     </NavigationContainer>
   );
