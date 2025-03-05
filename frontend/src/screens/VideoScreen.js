@@ -16,3 +16,8 @@ export default function VideoScreen({ route }) {
     </View>
   );
 }
+
+// 🔹 How It Works
+// Another screen navigates to VideoScreen and passes a video file URL as route.params.uri.
+// The VideoScreen component extracts uri and loads the video.
+// The video is displayed with full width, a height of 300, and built-in controls.

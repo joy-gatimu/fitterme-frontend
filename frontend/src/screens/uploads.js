@@ -128,6 +128,17 @@ export default function UploadScreen({ navigation }) {
   );
 }
 
+
+
+
+
+// ImagePicker from Expo → Allows the user to select a video from their gallery.
+// Video from expo-av → Enables video playback.
+// Dimensions → Gets screen width to style UI elements responsively.
+
+
+
+
 const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
