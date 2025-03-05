@@ -81,3 +81,9 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 });
+
+// ✔ Plays a video using Expo's Video component.
+// ✔ Allows users to play/pause the video.
+// ✔ Saves the video to the device's media library.
+// ✔ Navigates back to the "Camera" screen.
+// ✔ Uses React Native UI components for styling.
