@@ -5,8 +5,8 @@ import {
   Text,
   StyleSheet,
   Image,
-  ScrollView, 
-  Dimensions, 
+  ScrollView,
+  Dimensions,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Video } from "expo-av";
@@ -55,7 +55,6 @@ export default function UploadScreen({ navigation }) {
 
     if (!result.canceled) {
       setVideoUri(result.assets[0].uri);
-      navigation.navigate("CalorieEstimator", { videoUri: result.assets[0].uri });
 
       // Simulate calories burned increase (e.g., +500 calories per upload)
       setCaloriesBurned((prevCalories) => Math.min(prevCalories + 500, totalCalories));
@@ -87,11 +86,10 @@ export default function UploadScreen({ navigation }) {
           <Image
             source={require("../assets/logo.png")}
             style={[styles.logo, { width: screenWidth }]}
-            resizeMode="cover" 
+            resizeMode="cover"
           />
         </View>
 
-        
         {/* Monthly Progress Section */}
         <Text style={styles.sectionTitle}>Monthly Progress</Text>
         <BarGraph weeklyProgress={weeklyProgress} />
@@ -102,9 +100,7 @@ export default function UploadScreen({ navigation }) {
             Calories Burned: {caloriesBurned}/{totalCalories}
           </Text>
           <View style={styles.progressBar}>
-            <View
-              style={[styles.progressFill, { width: `${progressPercentage}%` }]}
-            />
+            <View style={[styles.progressFill, { width: `${progressPercentage}%` }]} />
           </View>
         </View>
 
@@ -126,18 +122,11 @@ export default function UploadScreen({ navigation }) {
       </View>
     </ScrollView>
   );
-}
-
-
-
-
+};
 
 // ImagePicker from Expo → Allows the user to select a video from their gallery.
 // Video from expo-av → Enables video playback.
 // Dimensions → Gets screen width to style UI elements responsively.
-
-
-
 
 const styles = StyleSheet.create({
   scrollContainer: {
@@ -157,12 +146,6 @@ const styles = StyleSheet.create({
   logo: {
     height: 150, // Adjust the height as needed
   },
-  userName: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 20,
-  },
   sectionTitle: {
     fontSize: 20,
     fontWeight: "bold",
@@ -178,11 +161,11 @@ const styles = StyleSheet.create({
   },
   barContainer: {
     alignItems: "center",
-    width: "12%", 
+    width: "12%",
   },
   bar: {
     width: "80%",
-    backgroundColor: "#4caf50", 
+    backgroundColor: "#4caf50",
     borderRadius: 5,
   },
   barLabel: {
