@@ -96,6 +96,6 @@ const styles = StyleSheet.create({
     left: 20,
   },
   listContainer: {
-    flexGrow: 1, // Ensures the FlatList content takes up the available space
+    flexGrow: 1, 
   },
 });

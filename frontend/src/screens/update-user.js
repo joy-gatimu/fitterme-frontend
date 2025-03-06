@@ -135,12 +135,20 @@ export default function UpdateUserDetailsScreen({ navigation }) {
 
         {isLoading ? <ActivityIndicator size="large" color="#ff6600" /> : (
           <>
+          <Text>First Name</Text>
             <TextInput style={styles.input} placeholder="First Name" value={firstName} onChangeText={setFirstName} />
+           
+            <Text>Last Name</Text>
             <TextInput style={styles.input} placeholder="Last Name" value={lastName} onChangeText={setLastName} />
+            <Text>Birthdate (YYYY-MM-DD)</Text>
             <TextInput style={styles.input} placeholder="Birthdate (YYYY-MM-DD)" value={birthdate} onChangeText={setBirthdate} />
+            <Text>Current Weight (kg)</Text>
             <TextInput style={styles.input} placeholder="Current Weight (kg)" keyboardType="numeric" value={currentWeight} onChangeText={setCurrentWeight} />
+            <Text>Target Weight (kg)</Text>
             <TextInput style={styles.input} placeholder="Target Weight (kg)" keyboardType="numeric" value={targetWeight} onChangeText={setTargetWeight} />
+            <Text>Height (cm)</Text>
             <TextInput style={styles.input} placeholder="Height (cm)" keyboardType="numeric" value={height} onChangeText={setHeight} />
+            <Text>Program Duration (weeks)</Text>
             <TextInput style={styles.input} placeholder="Program Duration (weeks)" keyboardType="numeric" value={programDuration} onChangeText={setProgramDuration} />
 
             <Text style={styles.label}>Select Gender</Text>

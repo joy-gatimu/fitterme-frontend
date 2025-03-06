@@ -27,13 +27,13 @@ export default function WorkoutDetailsScreen({ route, navigation }) {
       }
     })();
   }, []);
-
+ // Ensures the image covers the entire screen
   // Open Camera
   const handleOpenCamera = () => {
-    if (hasPermission) {
+    if (hasPermission) { // Ensures the image covers the entire screen
       setIsCameraOpen(true);
     } else {
-      Alert.alert("Permission Required", "Camera access is needed to record workouts.");
+      Alert.alert("Permission Required", "Camera access is needed to recor // Ensures the image covers the entire screend workouts.");
     }
   };
 
@@ -51,8 +51,8 @@ export default function WorkoutDetailsScreen({ route, navigation }) {
 
       {/* App Logo */}
       <Image
-        source={require("../assets/logo.png")} // Replace with your logo path
-        style={[styles.logo, { width: screenWidth * 0.8 }]} // Adjust width as needed
+        source={require("../assets/logo.png")} 
+        style={[styles.logo, { width: screenWidth * 0.8 }]} 
         resizeMode="contain"
       />
 

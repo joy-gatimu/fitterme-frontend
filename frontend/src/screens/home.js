@@ -75,10 +75,14 @@ export default function HomeScreen({ navigation }) {
             <ActivityIndicator size="large" color="#ff6600" />
           ) : (
             <>
+            
             <Text style={styles.welcomeText}>Welcome, {username}!</Text>
+
+            
             <Text style={styles.welcomeMessage}>Welcome To Fitter Me App where we are dedicated to monitor your fitness journey.
               We give you a variety of workouts where you can select from.The workouts have constant time and constant calories which you will burn.
               The only thing you need to do is record yourself doing the workout</Text>
+              
             <View style={styles.imageContainer}>
                 <Image source={require("../assets/m1.png")} style={styles.image} />
                 <Image source={require("../assets/m2.png")} style={styles.image} />
@@ -127,7 +131,8 @@ const styles = StyleSheet.create({
   logo: { height: 150, alignSelf: "center" },
   formContainer: { flex: 1, justifyContent: "center", alignItems: "center", padding: 20 },
   welcomeText: { fontSize: 40, fontWeight: "bold", color: "white", marginBottom: 10,backgroundColor:"#00008B" },
-  welcomeMessage:{fontSize: 15, color: "black", marginBottom: 10,fontFamily:"Apple Chancery, cursive"},
+  welcomeMessage:{fontSize: 15, color: "black", marginBottom: 10,fontFamily:"Apple Chancery, cursive",backgroundColor:"#cccccc"},
+ 
   button: { backgroundColor: "#ff6600", paddingVertical: 12, paddingHorizontal: 40, borderRadius: 8, marginTop: 10, alignItems: "center" },
   buttonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
   imageContainer: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", marginTop: 20 },
