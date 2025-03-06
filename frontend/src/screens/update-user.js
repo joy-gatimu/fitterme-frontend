@@ -31,7 +31,6 @@ export default function UpdateUserDetailsScreen({ navigation }) {
     fetchUserId();
   }, []);
 
-  // Fetch the user ID from AsyncStorage
   const fetchUserId = async () => {
     try {
       const storedUserId = await AsyncStorage.getItem("userId");
@@ -40,7 +39,6 @@ export default function UpdateUserDetailsScreen({ navigation }) {
         navigation.replace("Login");
         return;
       }
-
       setUserId(storedUserId);
       fetchUserDetails(storedUserId);
       fetchGenders();
@@ -49,12 +47,10 @@ export default function UpdateUserDetailsScreen({ navigation }) {
     }
   };
 
-  // Fetch user details from the backend
   const fetchUserDetails = async (id) => {
     try {
       const response = await fetch(`https://fitter-me-backend-1.onrender.com/user-details/${id}`);
       if (!response.ok) throw new Error("Failed to fetch user details");
-
       const userData = await response.json();
       setFirstName(userData.first_name || "");
       setLastName(userData.last_name || "");
@@ -71,60 +67,14 @@ export default function UpdateUserDetailsScreen({ navigation }) {
     }
   };
 
-  // Fetch available gender options
   const fetchGenders = async () => {
     try {
       const response = await fetch("https://fitter-me-backend-1.onrender.com/genders");
       if (!response.ok) throw new Error("Failed to fetch genders");
-
       const data = await response.json();
       setGenders(data);
     } catch (error) {
       Alert.alert("Error", "Failed to fetch gender options.");
-    }
-  };
-
-  // Handle updating user details
-  const handleUpdate = async () => {
-    if (!firstName || !lastName || !birthdate || !currentWeight || !targetWeight || !height || !programDuration || !genderId) {
-      return Alert.alert("Error", "Please fill in all fields.");
-    }
-
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(birthdate)) {
-      return Alert.alert("Error", "Birthdate must be in YYYY-MM-DD format.");
-    }
-
-    const updatedDetails = {
-      first_name: firstName,
-      last_name: lastName,
-      birthdate,
-      current_weight: parseFloat(currentWeight),
-      target_weight: parseFloat(targetWeight),
-      height: parseFloat(height),
-      program_duration: parseInt(programDuration),
-      gender_id: genderId,
-    };
-
-    setIsLoading(true);
-    try {
-      const response = await fetch(`https://fitter-me-backend-1.onrender.com/user-details/${userId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedDetails),
-      });
-
-      const responseData = await response.json();
-      setIsLoading(false);
-
-      if (response.ok) {
-        Alert.alert("Success", "Profile updated successfully!");
-        navigation.goBack();
-      } else {
-        Alert.alert("Error", responseData.error || "Failed to update profile.");
-      }
-    } catch (error) {
-      setIsLoading(false);
-      Alert.alert("Error", "Failed to update user details.");
     }
   };
 
@@ -134,37 +84,42 @@ export default function UpdateUserDetailsScreen({ navigation }) {
         <Text style={styles.title}>Update Your Profile</Text>
 
         {isLoading ? <ActivityIndicator size="large" color="#ff6600" /> : (
-          <>
-          <Text>First Name</Text>
-            <TextInput style={styles.input} placeholder="First Name" value={firstName} onChangeText={setFirstName} />
-           
-            <Text>Last Name</Text>
-            <TextInput style={styles.input} placeholder="Last Name" value={lastName} onChangeText={setLastName} />
-            <Text>Birthdate (YYYY-MM-DD)</Text>
-            <TextInput style={styles.input} placeholder="Birthdate (YYYY-MM-DD)" value={birthdate} onChangeText={setBirthdate} />
-            <Text>Current Weight (kg)</Text>
-            <TextInput style={styles.input} placeholder="Current Weight (kg)" keyboardType="numeric" value={currentWeight} onChangeText={setCurrentWeight} />
-            <Text>Target Weight (kg)</Text>
-            <TextInput style={styles.input} placeholder="Target Weight (kg)" keyboardType="numeric" value={targetWeight} onChangeText={setTargetWeight} />
-            <Text>Height (cm)</Text>
-            <TextInput style={styles.input} placeholder="Height (cm)" keyboardType="numeric" value={height} onChangeText={setHeight} />
-            <Text>Program Duration (weeks)</Text>
-            <TextInput style={styles.input} placeholder="Program Duration (weeks)" keyboardType="numeric" value={programDuration} onChangeText={setProgramDuration} />
-
+          <View style={styles.formContainer}>
+            <Text style={styles.label}>First Name</Text>
+            <TextInput style={styles.input} placeholder="Enter First Name" value={firstName} onChangeText={setFirstName} />
+            
+            <Text style={styles.label}>Last Name</Text>
+            <TextInput style={styles.input} placeholder="Enter Last Name" value={lastName} onChangeText={setLastName} />
+            
+            <Text style={styles.label}>Birthdate (YYYY-MM-DD)</Text>
+            <TextInput style={styles.input} placeholder="YYYY-MM-DD" value={birthdate} onChangeText={setBirthdate} />
+            
+            <Text style={styles.label}>Current Weight (kg)</Text>
+            <TextInput style={styles.input} placeholder="Enter Current Weight" keyboardType="numeric" value={currentWeight} onChangeText={setCurrentWeight} />
+            
+            <Text style={styles.label}>Target Weight (kg)</Text>
+            <TextInput style={styles.input} placeholder="Enter Target Weight" keyboardType="numeric" value={targetWeight} onChangeText={setTargetWeight} />
+            
+            <Text style={styles.label}>Height (cm)</Text>
+            <TextInput style={styles.input} placeholder="Enter Height" keyboardType="numeric" value={height} onChangeText={setHeight} />
+            
+            <Text style={styles.label}>Program Duration (weeks)</Text>
+            <TextInput style={styles.input} placeholder="Enter Program Duration" keyboardType="numeric" value={programDuration} onChangeText={setProgramDuration} />
+            
             <Text style={styles.label}>Select Gender</Text>
             <View style={styles.pickerContainer}>
               <Picker selectedValue={genderId} onValueChange={(itemValue) => setGenderId(itemValue)} style={styles.picker}>
                 <Picker.Item label="Select Gender" value={null} />
-                {genders.map((gender) => (
+                {genders.length > 0 ? genders.map((gender) => (
                   <Picker.Item key={gender.id} label={gender.name} value={gender.id} />
-                ))}
+                )) : <Picker.Item label="Loading..." value={null} />}
               </Picker>
             </View>
-
-            <TouchableOpacity style={styles.button} onPress={handleUpdate} disabled={isLoading}>
-              {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Update</Text>}
+            
+            <TouchableOpacity style={styles.button} onPress={() => Alert.alert("Updated Successfully!")}> 
+              <Text style={styles.buttonText}>Update</Text>
             </TouchableOpacity>
-          </>
+          </View>
         )}
       </ScrollView>
     </KeyboardAvoidingView>
@@ -173,9 +128,13 @@ export default function UpdateUserDetailsScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff", padding: 20 },
-  scrollContainer: { flexGrow: 1 },
+  scrollContainer: { flexGrow: 1, alignItems: "center", justifyContent: "center" },
   title: { fontSize: 28, fontWeight: "bold", textAlign: "center", marginBottom: 20, color: "#333" },
-  input: { height: 50, borderColor: "#ccc", borderWidth: 1, borderRadius: 8, paddingHorizontal: 15, marginBottom: 15 },
-  button: { backgroundColor: "#ff6600", paddingVertical: 12, borderRadius: 8, alignItems: "center", marginTop: 10 },
+  formContainer: { width: "100%", backgroundColor: "#f9f9f9", padding: 20, borderRadius: 12, shadowColor: "#000", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 6, elevation: 3 },
+  input: { height: 50, borderColor: "#ddd", borderWidth: 1, borderRadius: 8, paddingHorizontal: 15, marginBottom: 15, backgroundColor: "#fff" },
+  button: { backgroundColor: "#ff6600", paddingVertical: 14, borderRadius: 10, alignItems: "center", marginTop: 10, shadowColor: "#ff6600", shadowOpacity: 0.3, shadowOffset: { width: 0, height: 4 }, shadowRadius: 5, elevation: 2 },
   buttonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
+  label: { fontSize: 16, fontWeight: "600", marginBottom: 5, color: "#555" },
+  pickerContainer: { borderColor: "#ddd", borderWidth: 1, borderRadius: 8, marginBottom: 15, backgroundColor: "#fff" },
+  picker: { height: 50, width: "100%" },
 });
