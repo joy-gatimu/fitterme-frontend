@@ -8,11 +8,9 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import * as ImagePicker from "expo-image-picker";
-import { Video } from "expo-av";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const API_URL = "https://fitter-me-backend-1.onrender.com/workouts-done"; // Replace with actual backend URL
+const API_URL = "https://fitter-me-backend-1.onrender.com/workouts-done"; //backend URL
 
 const BarGraph = ({ weeklyProgress }) => {
   return (
@@ -28,10 +26,7 @@ const BarGraph = ({ weeklyProgress }) => {
 };
 
 export default function UploadScreen({ navigation }) {
-  const [videoUri, setVideoUri] = useState(null);
-  const [caloriesBurned, setCaloriesBurned] = useState(0);
   const [userId, setUserId] = useState(null);
-  const totalCalories = 5000;
   const screenWidth = Dimensions.get("window").width;
 
   const initialWeeklyProgress = [
@@ -96,50 +91,19 @@ export default function UploadScreen({ navigation }) {
     }
   };
 
-  const pickVideo = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
-      allowsEditing: true,
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setVideoUri(result.assets[0].uri);
-      navigation.navigate("CalorieEstimator", { videoUri: result.assets[0].uri, userId });
-      setCaloriesBurned((prevCalories) => Math.min(prevCalories + 500, totalCalories));
-    }
-  };
-
-  const resetProgress = () => {
-    setCaloriesBurned(0);
-    setWeeklyProgress(initialWeeklyProgress);
-  };
-
-  const progressPercentage = (caloriesBurned / totalCalories) * 100;
-
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Image source={require("../assets/logo.png")} style={[styles.logo, { width: screenWidth }]} resizeMode="cover" />
         </View>
+        
         <Text style={styles.sectionTitle}>Weekly Workout Progress</Text>
         <BarGraph weeklyProgress={weeklyProgress} />
-        <View style={styles.progressContainer}>
-          <Text style={styles.progressText}>Calories Burned: {caloriesBurned}/{totalCalories}</Text>
-          <View style={styles.progressBar}>
-            <View style={[styles.progressFill, { width: `${progressPercentage}%` }]} />
-          </View>
-        </View>
-        <TouchableOpacity style={styles.uploadButton} onPress={pickVideo}>
-          <Text style={styles.uploadButtonText}>Upload Workout Video</Text>
-        </TouchableOpacity>
-        {videoUri && <Video source={{ uri: videoUri }} style={styles.video} shouldPlay />}
-        <TouchableOpacity style={styles.updateButton} onPress={resetProgress}>
-          <Text style={styles.updateButtonText}>Reset Progress</Text>
-        </TouchableOpacity>
+
+     
         <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
-          <Text style={styles.goBackButtonText}>Go Back</Text>
+          <Text style={styles.goBackButtonText}>← Go Back</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -156,4 +120,21 @@ const styles = StyleSheet.create({
   barContainer: { alignItems: "center", width: "12%" },
   bar: { width: "80%", backgroundColor: "#4caf50", borderRadius: 5 },
   barLabel: { marginTop: 5, fontSize: 14, color: "#666" },
+
+  goBackButton: {
+    backgroundColor: "#ff6600",
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+  goBackButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
 });
