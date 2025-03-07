@@ -21,7 +21,7 @@ export default function GoalSelectionScreen({ navigation }) {
     }
 
     await AsyncStorage.setItem("userGoal", selectedGoal);
-    navigation.replace("MainTabs");
+    navigation.replace("Login");
   };
 
   return (

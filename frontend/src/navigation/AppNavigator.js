@@ -10,7 +10,6 @@ import FitnessRoutineScreen from "../screens/FitnessRoutineScreen";
 import GoalSelectionScreen from "../screens/GoalSelectionScreen";
 import HomeScreen from "../screens/home";
 import WorkoutScreen from "../screens/WorkoutScreen";
-import DiaryScreen from "../screens/diary";
 import UploadScreen from "../screens/uploads";
 import WorkoutDetailsScreen from "../screens/WorkoutDetailsScreen";
 import UpdateUserDetailsScreen from "../screens/update-user";
@@ -53,7 +52,6 @@ function MainTabs() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Diary" component={DiaryScreen} />
       <Tab.Screen name="Uploads" component={UploadScreen} />
       <Tab.Screen name="Update User" component={UpdateUserDetailsScreen} />
     </Tab.Navigator>
