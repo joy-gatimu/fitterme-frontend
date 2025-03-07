@@ -15,6 +15,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 export default function HomeScreen({ navigation }) {
   const [username, setUsername] = useState("Guest");
+  const [userId, setUserId] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const fetchUserDetails = async () => {
@@ -30,6 +31,8 @@ export default function HomeScreen({ navigation }) {
         return;
       }
 
+      setUserId(storedUserId); // Save userId in state
+      
       const response = await fetch("https://fitter-me-backend-1.onrender.com/users");
       if (!response.ok) throw new Error("Failed to fetch users");
 
@@ -58,7 +61,7 @@ export default function HomeScreen({ navigation }) {
     useCallback(() => {
       setLoading(true);
       fetchUserDetails();
-    }, [])
+    }, [navigation])
   );
 
   return (
@@ -75,30 +78,32 @@ export default function HomeScreen({ navigation }) {
             <ActivityIndicator size="large" color="#ff6600" />
           ) : (
             <>
-            
-            <Text style={styles.welcomeText}>Welcome, {username}!</Text>
-
-            
-            <Text style={styles.welcomeMessage}>Welcome To Fitter Me App where we are dedicated to monitor your fitness journey.
-              We give you a variety of workouts where you can select from.The workouts have constant time and constant calories which you will burn.
-              The only thing you need to do is record yourself doing the workout</Text>
-              
-            <View style={styles.imageContainer}>
+              <Text style={styles.welcomeText}>Welcome, {username}!</Text>
+              <Text style={styles.welcomeMessage}>
+                Welcome To Fitter Me App where we are dedicated to monitoring your fitness journey. 
+                We provide a variety of workouts for you to select from. The workouts have a constant time and 
+                fixed calories to burn. All you need to do is record yourself doing the workout.
+              </Text>
+              <View style={styles.imageContainer}>
                 <Image source={require("../assets/m1.png")} style={styles.image} />
                 <Image source={require("../assets/m2.png")} style={styles.image} />
                 <Image source={require("../assets/m3.png")} style={styles.image} />
                 <Image source={require("../assets/m4.png")} style={styles.image} />
               </View>
               
-              <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("WorkoutScreens")}>
+              <TouchableOpacity 
+                style={styles.button} 
+                onPress={() => {
+                  console.log("Navigating to WorkoutScreens with userId:", userId);
+                  navigation.navigate("WorkoutScreens", { userId });
+                }}
+              >
                 <Text style={styles.buttonText}>Go to Workout</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Camera")}>
                 <Text style={styles.buttonText}>Open</Text>
               </TouchableOpacity>
-              
-              
             </>
           )}
         </View>
@@ -107,32 +112,13 @@ export default function HomeScreen({ navigation }) {
   );
 }
 
-export const handleLogin = async (userId) => {
-  try {
-    await AsyncStorage.setItem("userId", userId.toString());
-    console.log("User ID stored:", userId);
-  } catch (error) {
-    console.error("Failed to store userId:", error);
-  }
-};
-
-export const handleLogout = async () => {
-  try {
-    await AsyncStorage.removeItem("userId");
-    console.log("User ID removed on logout");
-  } catch (error) {
-    console.error("Failed to remove userId:", error);
-  }
-};
-
 const styles = StyleSheet.create({
   scrollContainer: { flexGrow: 1 },
   container: { flex: 1, backgroundColor: "#fff" },
   logo: { height: 150, alignSelf: "center" },
   formContainer: { flex: 1, justifyContent: "center", alignItems: "center", padding: 20 },
-  welcomeText: { fontSize: 40, fontWeight: "bold", color: "white", marginBottom: 10,backgroundColor:"#00008B" },
-  welcomeMessage:{fontSize: 15, color: "black", marginBottom: 10,fontFamily:"Apple Chancery, cursive",backgroundColor:"#cccccc"},
- 
+  welcomeText: { fontSize: 40, fontWeight: "bold", color: "white", marginBottom: 10, backgroundColor: "#00008B", padding: 10 },
+  welcomeMessage: { fontSize: 15, color: "black", marginBottom: 10, textAlign: "center" },
   button: { backgroundColor: "#ff6600", paddingVertical: 12, paddingHorizontal: 40, borderRadius: 8, marginTop: 10, alignItems: "center" },
   buttonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
   imageContainer: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", marginTop: 20 },

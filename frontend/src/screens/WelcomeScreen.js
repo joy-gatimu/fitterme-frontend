@@ -14,7 +14,7 @@ const screenHeight = Dimensions.get("window").height;
 
 return (
 <ImageBackground
-source={require("../assets/welcome1.png")} 
+source={require("../assets/welcome_centered.jpg")} 
 style={styles.background}
 resizeMode="cover" 
 >

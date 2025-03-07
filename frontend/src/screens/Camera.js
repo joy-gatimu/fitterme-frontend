@@ -9,7 +9,7 @@ import {
   Text,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import * as MediaLibrary from "expo-media-library";
 import Slider from "@react-native-community/slider";
 
@@ -26,6 +26,15 @@ export default function CameraFunction() {
   const [zoom, setZoom] = useState(0);
   const cameraRef = useRef(null);
   const navigation = useNavigation();
+  const route = useRoute();
+
+  // Retrieve userId and workoutId from route params
+  const { userId, workoutId } = route.params || {};
+
+  useEffect(() => {
+    console.log("User ID:", userId);
+    console.log("Workout ID:", workoutId);
+  }, [userId, workoutId]);
 
   useEffect(() => {
     (async () => {
@@ -41,9 +50,14 @@ export default function CameraFunction() {
 
   useEffect(() => {
     if (video) {
-      navigation.navigate("Video", { uri: video.uri });
+      navigation.navigate("Video", {
+        uri: video.uri,
+        userId,  // Pass userId
+        workoutId, // Pass workoutId
+      });
     }
   }, [video, navigation]);
+  
 
   if (!cameraPermission || !mediaLibraryPermission || !micPermission) {
     return <Text>Requesting permissions...</Text>;
@@ -58,20 +72,13 @@ export default function CameraFunction() {
 
   const takePicture = async () => {
     if (!cameraRef.current) return;
-
-    const options = {
-      quality: 1,
-      base64: true,
-      exif: false,
-    };
-
+    const options = { quality: 1, base64: true, exif: false };
     const newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
   };
 
   const recordVideo = async () => {
     if (!cameraRef.current) return;
-
     setRecording(true);
     try {
       const newVideo = await cameraRef.current.recordAsync({ maxDuration: 30 });
@@ -114,14 +121,7 @@ export default function CameraFunction() {
 
   return (
     <View style={styles.container}>
-      <CameraView
-        style={styles.camera}
-        facing={facing}
-        ref={cameraRef}
-        flash={flashMode}
-        mode={cameraMode}
-        zoom={zoom}
-      >
+      <CameraView style={styles.camera} facing={facing} ref={cameraRef} flash={flashMode} mode={cameraMode} zoom={zoom}>
         <Slider
           style={styles.slider}
           minimumValue={0}
@@ -131,7 +131,6 @@ export default function CameraFunction() {
           value={zoom}
           onValueChange={setZoom}
         />
-        {/* Bottom controls */}
         <View style={styles.controls}>
           <TouchableOpacity style={styles.iconButton} onPress={toggleCameraFacing}>
             <Ionicons name="camera-reverse-outline" size={30} color="white" />
@@ -143,14 +142,9 @@ export default function CameraFunction() {
             <Ionicons name="videocam-outline" size={30} color="white" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconButton} onPress={toggleFlash}>
-            <Ionicons
-              name={flashMode === "on" ? "flash-outline" : "flash-off-outline"}
-              size={30}
-              color="white"
-            />
+            <Ionicons name={flashMode === "on" ? "flash-outline" : "flash-off-outline"} size={30} color="white" />
           </TouchableOpacity>
         </View>
-        {/* Shutter button */}
         <View style={styles.shutterContainer}>
           {cameraMode === "picture" ? (
             <TouchableOpacity style={styles.shutterButton} onPress={takePicture}>
@@ -228,4 +222,3 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 });
-
